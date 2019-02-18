@@ -1,0 +1,21 @@
+{
+  "name": "rest-api-nodejs",
+  "version": "0.1.0",
+  "description": "a simple crawler in nodejs to consume lastfm coming soon page and provide api for client",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kelvin Gobo",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "cors": "^2.8.5",
+    "eslint": "^5.14.0",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10",
+    "request": "^2.88.0"
+  }
+}
