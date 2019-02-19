@@ -24,20 +24,30 @@ app.get('/last-fm', (req, res) => {
     if (error) return;
 
     const $ = cheerio.load(html);
-    $('h3.album-grid-item-title').filter(function() {
-      const data = $(this);
-      titles.push(data.children().first().text());
+    $('a.link-block-target').filter(function() {
+      const data = $(this).text();
+      titles.push(data);
     });
     $('img.cover-art').filter(function() {
-      const data = $(this);
-      console.log(data.children().first().children());
-      // coverArts.push(data.children().first().src);
+      const data = $(this).attr('src');
+      coverArts.push(data);
+    });
+    $('p.album-grid-item-artist').filter(function() {
+      const data = $(this).text();
+      const filteredData = data.replace('\n', '').trim();
+      artists.push(filteredData);
+    });
+    $('p.album-grid-item-date').filter(function() {
+      const data = $(this).text();
+      const filteredData = data.replace('\n', '').trim();
+      releaseDates.push(filteredData);
     });
     for (let i = 0; i < titles.length; i++) {
       let obj = {};
       obj.title = titles[i];
-      // console.log(coverArts[i]);
-      // obj.coverArt = coverArts[i];
+      obj.coverArt = coverArts[i];
+      obj.artist = artists[i];
+      obj.releaseDate = releaseDates[i];
       comingSoon.push(obj);
     }
     res.json(comingSoon);
