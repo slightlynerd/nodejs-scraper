@@ -54,6 +54,36 @@ app.get('/last-fm', (req, res) => {
   });
 });
 
+app.get('/last-fm/:artist/:album', (req, res) => {
+  const artist = req.params.artist;
+  const album = req.params.album;
+  const URL = `https://www.last.fm/music/${artist}/${album}`;
+  let trackTitle = [];
+  let trackDuration = [];
+  let response = [];
+
+  request(URL, (error, response, html) => {
+    if (error) res.json({message: 'An error occured when fetching the page'});
+
+    const $ = cheerio.load(html);
+    $('span.chartlist-ellipsis-wrap').filter(function() {
+      const data = $(this).text();
+      trackTitle.push(data);
+    });
+    $('td.chartlist-duration').filter(function() {
+      const data = $(this).text();
+      trackDuration.push(data);
+    });
+    for(let i = 0; i < trackTitle.length; i++) {
+      let obj = {};
+      obj.trackName = trackTitle[i];
+      obj.trackDuration = trackDuration[i];
+      response.push(obj);
+    }
+    res.json(response);
+  });
+});
+
 app.listen(PORT, (err) => {
   if (err) {
     return console.log('something bad happened', err);
