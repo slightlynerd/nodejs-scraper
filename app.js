@@ -59,6 +59,7 @@ app.get('/last-fm/:artist/:album', (req, res) => {
   const album = req.params.album;
   const URL = `https://www.last.fm/music/${artist}/${album}`;
   let trackTitle = [];
+  let trackImage = {};
   let trackDuration = [];
   let rest = [];
 
@@ -66,6 +67,10 @@ app.get('/last-fm/:artist/:album', (req, res) => {
     if (error) res.json({message: 'An error occured when fetching the page'});
 
     const $ = cheerio.load(html);
+    $('div.header-avatar').first().find('img.cover-art').filter(function() {
+      const data = $(this).attr('src');
+      trackImage.image = data;
+    });
     $('table').first().find('a.link-block-target').filter(function() {
       const data = $(this).text();
       trackTitle.push(data);
@@ -81,6 +86,7 @@ app.get('/last-fm/:artist/:album', (req, res) => {
       obj.trackDuration = trackDuration[i];
       rest.push(obj);
     }
+    rest.push(trackImage);
     res.json(rest);
   });
 });
