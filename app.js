@@ -66,19 +66,20 @@ app.get('/last-fm/:artist/:album', (req, res) => {
     if (error) res.json({message: 'An error occured when fetching the page'});
 
     const $ = cheerio.load(html);
-    $('span.chartlist-ellipsis-wrap').filter(function() {
+    $('table').first().find('a.link-block-target').filter(function() {
       const data = $(this).text();
       trackTitle.push(data);
     });
-    $('td.chartlist-duration').filter(function() {
+    $('table').first().find('td.chartlist-duration').filter(function() {
       const data = $(this).text();
-      trackDuration.push(data);
+      const filteredData = data.replace('\n', '').trim();
+      trackDuration.push(filteredData);
     });
     for(let i = 0; i < trackTitle.length; i++) {
       let obj = {};
       obj.trackName = trackTitle[i];
       obj.trackDuration = trackDuration[i];
-      response.push(obj);
+      rest.push(obj);
     }
     res.json(rest);
   });
