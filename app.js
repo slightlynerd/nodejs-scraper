@@ -60,7 +60,7 @@ app.get('/last-fm/:artist/:album', (req, res) => {
   const URL = `https://www.last.fm/music/${artist}/${album}`;
   let trackTitle = [];
   let trackDuration = [];
-  let response = [];
+  let rest = [];
 
   request(URL, (error, response, html) => {
     if (error) res.json({message: 'An error occured when fetching the page'});
@@ -80,7 +80,7 @@ app.get('/last-fm/:artist/:album', (req, res) => {
       obj.trackDuration = trackDuration[i];
       response.push(obj);
     }
-    res.json(response);
+    res.json(rest);
   });
 });
 
