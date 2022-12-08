@@ -10,11 +10,11 @@
   "author": "Kelvin Gobo",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.5",
     "eslint": "^5.14.0",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "nodemon": "^1.18.10",
     "request": "^2.88.0"
   }
